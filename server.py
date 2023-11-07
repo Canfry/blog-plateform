@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, abort
-# from markupsafe import Markup
 from flask_ckeditor import CKEditor
 from flask_bootstrap import Bootstrap5
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
@@ -12,6 +11,7 @@ from dotenv import load_dotenv
 from variables import USERNAME, PASSWORD, today
 from dataclasses import dataclass
 from typing import List
+from datetime import datetime
 import smtplib
 import os
 
@@ -27,7 +27,12 @@ db = SQLAlchemy(model_class=Base)
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('SQLALCHEMY_DATABASE_URI')
-# mdeditor = MDEditor(app)
+# Security for HTTPS
+app.config['SESSION_COOKIE_SECURE'] = True
+# Prevent malicious scripts
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_PERMANENT'] = True
+app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=31)
 ckeditor = CKEditor(app)
 db.init_app(app)
 Bootstrap5(app)
