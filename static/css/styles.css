@@ -11159,3 +11159,11 @@ header.masthead .post-heading .meta a {
 .comment {
   padding: 1rem;
 }
+
+.trash-icon {
+  color: red;
+}
+
+.modal-btn {
+  cursor: pointer;
+}
