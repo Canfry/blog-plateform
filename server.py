@@ -102,7 +102,10 @@ with app.app_context():
 
 @app.route('/')
 def home():
-  return redirect('login')
+  logged_in = current_user.is_authenticated
+  if logged_in:
+     return redirect(url_for('get_all_posts'))
+  return redirect(url_for('login'))
 
 @app.route('/all-posts')
 @login_required
