@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 from variables import USERNAME, PASSWORD, today
 from dataclasses import dataclass
 from typing import List
-from datetime import datetime
+from datetime import timedelta
 import smtplib
 import os
 
@@ -32,7 +32,7 @@ app.config['SESSION_COOKIE_SECURE'] = True
 # Prevent malicious scripts
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_PERMANENT'] = True
-app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=31)
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=31)
 ckeditor = CKEditor(app)
 db.init_app(app)
 Bootstrap5(app)
