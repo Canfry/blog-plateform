@@ -176,7 +176,6 @@ def logout():
 
 
 @app.route('/about')
-@login_required
 def about():
   return render_template('about.html', logged_in=current_user.is_authenticated)
 
@@ -188,7 +187,6 @@ def form_submitted():
 
 
 @app.route('/contact', methods=['GET', 'POST'])
-@login_required
 def contact():
   if request.method == 'POST':
     name = request.form.get('name')
