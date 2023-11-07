@@ -1,27 +1,21 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, abort
 # from markupsafe import Markup
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import UserMixin, login_user, logout_user, LoginManager, login_required, current_user
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
-from sqlalchemy import String, Integer, ForeignKey
-from dataclasses import dataclass
-from flask_bootstrap import Bootstrap5
 from flask_ckeditor import CKEditor
-from datetime import datetime
+from flask_bootstrap import Bootstrap5
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import String, Integer, ForeignKey
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import login_user, logout_user, login_required, current_user, LoginManager, UserMixin
 from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm, EditPostForm
-from functools import wraps
-from typing import List
 from dotenv import load_dotenv
+from variables import USERNAME, PASSWORD, today
+from dataclasses import dataclass
+from typing import List
 import smtplib
 import os
 
 load_dotenv()
-
-USERNAME = os.environ.get('EMAIL')
-PASSWORD = os.environ.get('PASSWORD')
-
-today = datetime.now().strftime("%B %d, %Y")
 
 # Initialize Extension
 class Base(DeclarativeBase):
