@@ -17,6 +17,10 @@
         <div class="col-lg-8 col-md-10 mx-auto">
           <!--TODO: render your registration form here-->
           {{render_form(form, novalidate=True)}}
+          <p class="my-2">
+            Already an account?
+            <a href="{{url_for('login')}}">Sign In</a>
+          </p>
         </div>
       </div>
     </div>

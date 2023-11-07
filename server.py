@@ -181,7 +181,6 @@ def about():
 
 
 @app.route('/form-submitted')
-@login_required
 def form_submitted():
   return render_template('form-submitted.html', logged_in=current_user.is_authenticated)
 
