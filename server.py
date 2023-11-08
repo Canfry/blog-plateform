@@ -55,6 +55,7 @@ class User(UserMixin, db.Model):
     email: Mapped[str] = mapped_column(String(100), unique=True,nullable=False)
     password: Mapped[str] = mapped_column(String(100), nullable=False)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
+    subtitle: Mapped[str] = mapped_column(String(255), unique=True,nullable=False)
     posts: Mapped[List['BlogPost']] = relationship(back_populates="author", cascade='all, delete')
     comments = relationship('Comment', back_populates="author", cascade='all, delete')
 
@@ -124,7 +125,7 @@ def get_my_posts():
    name = current_user.name
    posts = db.session.execute(db.select(BlogPost).where(BlogPost.author_id == user_id)).scalars()
    all_posts = posts
-   return render_template('user-posts.html', posts=all_posts, name=name)
+   return render_template('user-posts.html', posts=all_posts, name=name, logged_in=current_user.is_authenticated)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -146,6 +147,7 @@ def register():
          email = form.email.data,
          password = hash_password,
          name = form.name.data,
+         subtitle = form.subtitle.data
       )
 
       db.session.add(new_user)

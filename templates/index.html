@@ -1,9 +1,7 @@
 {% extends 'layout.html'%} {% block title%} Home Page {% endblock %} {% block
 header %}
 <h1>{{name}}'s blog</h1>
-<span class="subheading"
-  >The pleasure to share my knowledge and my experience</span
->
+<span class="subheading">{{ current_user.subtitle}}</span>
 {% endblock %} {% block content %}
 <!-- Main Content-->
 <div class="container px-4 px-lg-5">

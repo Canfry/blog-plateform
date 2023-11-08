@@ -25,6 +25,7 @@ class RegisterForm(FlaskForm):
   email = StringField('Email', validators=[DataRequired()])
   password = PasswordField('Password', validators=[DataRequired()])
   name = StringField('Name', validators=[DataRequired()])
+  subtitle = StringField('Subtitle. Max characters 255', validators=[DataRequired()])
   submit = SubmitField("Register", render_kw=style)
 
 class LoginForm(FlaskForm):
