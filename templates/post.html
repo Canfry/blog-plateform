@@ -40,11 +40,16 @@
           >
             {{ render_form(form) }}
           </form>
+          {% if not post.comments %}
+          <div></div>
+          {% else %}
           <div class="comment-container">
           {% for comment in post.comments %}
           <p class="comment bg-secondary" style="--bs-bg-opacity: .05">{{comment.text|safe}}</p>
+          <p class="comment-user">{{ comment.author.name.title() }}, on  {{today}}</p>
           <hr />
           {% endfor %}
+          {% endif %}
         </div>
       </div>
     </div>

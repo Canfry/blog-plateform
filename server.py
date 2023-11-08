@@ -228,7 +228,7 @@ def get_post(post_id):
      db.session.commit()
      return redirect(url_for('get_post', post_id=post.id))
   
-  return render_template('post.html', post=post, logged_in=current_user.is_authenticated, name=name, form=form)
+  return render_template('post.html', post=post, logged_in=current_user.is_authenticated, name=name, form=form, today=today)
   
 @app.route('/new-post', methods=['GET', 'POST'])
 @login_required

@@ -11160,6 +11160,12 @@ header.masthead .post-heading .meta a {
   padding: 1rem;
 }
 
+.comment-user {
+  font-style: italic;
+  font-size: smaller;
+  margin-top: 0;
+}
+
 .trash-icon {
   color: red;
 }
