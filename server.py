@@ -128,6 +128,17 @@ def get_my_posts():
    return render_template('user-posts.html', posts=all_posts, name=name, logged_in=current_user.is_authenticated)
 
 
+@app.route('/profile/<int:user_id>')
+@login_required
+def profile(user_id):
+  user = db.session.execute(db.select(User).where(User.id == user_id))
+  user_profile = user.scalar()
+  posts = user_profile.posts
+  if user_profile.id == current_user.id:
+    return redirect(url_for('get_my_posts'))
+  return render_template('profile.html', user=user_profile, logged_in=current_user.is_authenticated, posts=posts)
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
    form = RegisterForm()

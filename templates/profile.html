@@ -1,7 +1,7 @@
-{% extends 'layout.html'%} {% block title%} Home Page {% endblock %} {% block
+{% extends 'layout.html'%} {% block title%} Profile Page {% endblock %} {% block
 header %}
-<h1>{{name}}'s blog</h1>
-<span class="subheading">{{ current_user.subtitle}}</span>
+<h1>{{user.name}}'s blog</h1>
+<span class="subheading">{{ user.subtitle}}</span>
 {% endblock %} {% block content %}
 <!-- Main Content-->
 <div class="container px-4 px-lg-5">
@@ -16,11 +16,7 @@ header %}
         </a>
         <p class="post-meta">
           Posted by
-          <a
-            href="{{url_for('profile', user_id=post.author_id)}}"
-            class="text-warning fw-bold"
-            >{{post.author.name}}</a
-          >
+          <span class="text-warning fw-bold">{{post.author.name}}</span>
           {{post.date}}
         </p>
       </div>
