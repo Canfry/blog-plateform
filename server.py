@@ -117,6 +117,16 @@ def get_all_posts():
   return render_template('index.html', name=name, posts=all_posts, logged_in=current_user.is_authenticated)
 
 
+@app.route('/my-posts')
+@login_required
+def get_my_posts():
+   user_id = current_user.id
+   name = current_user.name
+   posts = db.session.execute(db.select(BlogPost).where(BlogPost.author_id == user_id)).scalars()
+   all_posts = posts
+   return render_template('user-posts.html', posts=all_posts, name=name)
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
    form = RegisterForm()
@@ -204,8 +214,6 @@ def contact():
 @app.route('/post/<int:post_id>', methods=['GET', 'POST'])
 @login_required
 def get_post(post_id):
-  result = db.session.execute(db.select(Comment)).scalars()
-  comments = result.fetchall()
   post = db.get_or_404(BlogPost, post_id, description='Sorry!! There is no post with this ID in our database.')
   name = current_user.name
   form = CommentForm()

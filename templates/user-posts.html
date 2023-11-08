@@ -21,11 +21,11 @@ header %}
           <span class="text-warning fw-bold">{{post.author.name}}</span>
           {{post.date}}
           <!-- Button trigger modal -->
-          <!-- <a data-bs-toggle="modal" data-bs-target="#deleteModal" class="mx-3 modal-btn">
+          <a data-bs-toggle="modal" data-bs-target="#deleteModal" class="mx-3 modal-btn">
             <i class="fa-solid fa-trash-can" style="color: #cc0000;"></i>
-          </a> -->
+          </a>
           <!-- Modal -->
-          <!-- <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
@@ -41,7 +41,7 @@ header %}
                 </div>
               </div>
             </div>
-          </div> -->
+          </div>
         </p>
       </div>
       <!-- Divider-->
@@ -49,11 +49,11 @@ header %}
       {% endfor %}
 
       <!-- Pager-->
-      <!-- <div class="d-flex justify-content-end mb-4">
+      <div class="d-flex justify-content-end mb-4">
         <a class="btn btn-warning text-uppercase" href="{{url_for('add_post')}}"
           >Create New Post →</a
         >
-      </div> -->
+      </div>
     </div>
   </div>
 </div>
