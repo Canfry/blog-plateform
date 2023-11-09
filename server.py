@@ -239,7 +239,7 @@ def get_post(post_id):
      )
      db.session.add(comment)
      db.session.commit()
-     return redirect(url_for('get_post', post_id=post.id))
+     return redirect(url_for('get_post', post_id=post.id, post=post))
   
   return render_template('post.html', post=post, logged_in=current_user.is_authenticated, name=name, form=form, today=today)
   
