@@ -38,7 +38,7 @@
   --bs-secondary: #6c757d;
   --bs-success: #198754;
   --bs-info: #0dcaf0;
-  --bs-warning: #ffc107;
+  --bs-warning: rgb(255, 193, 5)
   --bs-danger: #dc3545;
   --bs-light: #f8f9fa;
   --bs-dark: #212529;
@@ -11150,10 +11150,14 @@ header.masthead .post-heading .meta a {
 }
 
 .comment-container {
-  border: 0.5px dotted gray;
+  background-color: rgba(255, 193, 5, 0.05);
   padding: 0.75rem;
-  margin-top: 2rem;
+  margin-top: 0.75rem;
   border-radius: 8px;
+}
+
+.comment-header {
+  margin-top: 1.5rem;
 }
 
 .comment {
@@ -11164,6 +11168,11 @@ header.masthead .post-heading .meta a {
   font-style: italic;
   font-size: smaller;
   margin-top: 0;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.comment-user-name {
+  font-weight: bold;
 }
 
 .trash-icon {
