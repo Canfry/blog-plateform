@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, abort
+from flask import Flask, render_template, request, redirect, url_for, flash, abort, session
 from flask_ckeditor import CKEditor
 from flask_bootstrap import Bootstrap5
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
@@ -56,8 +56,8 @@ class User(UserMixin, db.Model):
     password: Mapped[str] = mapped_column(String(100), nullable=False)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     subtitle: Mapped[str] = mapped_column(String(255), unique=True,nullable=False)
-    posts: Mapped[List['BlogPost']] = relationship(back_populates="author", cascade='all, delete')
-    comments = relationship('Comment', back_populates="author", cascade='all, delete')
+    posts: Mapped[List['BlogPost']] = relationship(back_populates="author", lazy='subquery', cascade='all, delete')
+    comments = relationship('Comment', back_populates="author", lazy='subquery', cascade='all, delete')
 
 ##BlogPosts TABLE Configuration
 @dataclass
@@ -202,8 +202,18 @@ def edit_user(user_id):
     return redirect(url_for('get_my_posts'))
     
   return render_template('edit-user.html', user=user, form=edit_user_form, logged_in=current_user.is_authenticated)
-  
 
+
+@app.route('/delete_user/<int:user_id>')
+@login_required
+def delete_user(user_id):
+  user = db.get_or_404(User, user_id, description='Sorry! No article with this id found in the database')
+  db.session.delete(user)
+  db.session.commit()
+  session.clear()
+  flash('Account deleted successfully')
+  return redirect(url_for('register'))
+  
 
 @app.route('/all-posts')
 @login_required
@@ -287,7 +297,7 @@ def edit_post(post_id):
   return render_template('edit-post.html', post=post, form=edit_form, logged_in=current_user.is_authenticated)
 
 
-@app.route('/delete/<int:post_id>')
+@app.route('/delete_post/<int:post_id>')
 @login_required
 def delete_post(post_id):
    post = db.get_or_404(BlogPost, post_id, description='Sorry! No article with this id found in the database')

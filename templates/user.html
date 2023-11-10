@@ -9,7 +9,61 @@ header %}
       <a href="{{url_for('edit_user', user_id=user.id)}}"
         ><button class="btn btn-warning">Edit</button></a
       >
-      <button class="btn btn-danger">Delete</button>
+      <!-- Button trigger modal -->
+      <button
+        data-bs-toggle="modal"
+        class="btn btn-danger modal-btn"
+        data-bs-target="#deleteModal"
+      >
+        Delete
+      </button>
+      <!-- <a data-bs-toggle="modal" data-bs-target="#deleteModal" class="mx-3 modal-btn">
+            <i class="fa-solid fa-trash-can" style="color: #cc0000;"></i>
+          </a> -->
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="deleteModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">
+                Delete Account
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to delete your account? All your posts and
+              comments will be deleted.
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="submit" class="btn btn-danger">
+                <a
+                  class="text-white text-decoration-none"
+                  href="{{url_for('delete_user', user_id=current_user.id)}}"
+                  >Delete account</a
+                >
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
