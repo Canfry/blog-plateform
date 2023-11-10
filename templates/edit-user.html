@@ -1,0 +1,31 @@
+{% extends 'layout.html'%} {% from 'bootstrap5/form.html' import render_form %}
+{% block title%} Edit Account {% endblock %}
+<!-- Page Header -->
+{% block bgimg%}
+<header
+  class="masthead"
+  style="background-image: url('/static/assets/img/layout-bg.jpg')"
+>
+  {% endblock %} {%block header %}
+  <h1>Edit Account</h1>
+  <span class="subheading">Edit your account details!</span>
+  {% endblock %} {% block content %} {{ ckeditor.load() }}
+  <main class="mb-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <!-- TODO:-Add CKEditor and render the form here -->
+          <form
+            id="contactForm"
+            data-sb-form-api-token="API_TOKEN"
+            action="/user_account/{{user.id}}/edit"
+            method="POST"
+          >
+            {{ render_form(form) }}
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+  {% endblock %}
+</header>

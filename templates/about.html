@@ -1,0 +1,39 @@
+{% extends 'layout.html'%} {% block title%} About Page {% endblock %} {% block
+bgimg%}
+<header
+  class="masthead"
+  style="background-image: url('/static/assets/img/about-bg.jpg')"
+>
+  {% endblock %} {%block header %}
+  <h1>About Us</h1>
+  <!-- <span class="subheading">This is what I do.</span> -->
+  {% endblock %} {% block content %}
+  <!-- Main Content-->
+  <main class="mb-4">
+    <div class="container px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+          <h5>
+            The goal with this platform is to offer a common place for
+            developers, teammates or organizations, to share their articles
+            easily, with a good visibility, and to stick with their own
+            articles. The possibility to comment on the article, gives the
+            oportunity to have relevant feedbacks and to stay up to date.
+          </h5>
+          <br />
+          <h5>
+            It creates a personal community where users will post regarding the
+            same environment or learn from others. Perfect for teams, Discord
+            server or even only friends. Hope you will enjoy the experience.
+          </h5>
+          <br />
+          <h6 class="text-secondary italic">
+            Any questions or feedbacks, please reach our
+            <a href="{{url_for('contact')}}">Contact Page</a>
+          </h6>
+        </div>
+      </div>
+    </div>
+  </main>
+  {% endblock %}
+</header>
