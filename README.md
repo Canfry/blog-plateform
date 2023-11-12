@@ -27,6 +27,13 @@ pip install -r requirements.txt
 flask --app server run --debug
 ```
 
+6. To work locally you will need to put your environment variables:
+   Email and Password are used to send email after submitting contact form.
+   EMAIL=
+   PASSWORD=
+   SECRET_KEY=
+   SQLALCHEMY_DATABASE_URI='sqlite:///posts.db'
+
 # Goals
 
 - I've used Bootstrap for styling layouts and forms. WTForms to generate automatically the forms.
