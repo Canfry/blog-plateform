@@ -29,8 +29,9 @@ flask --app server run --debug
 
 # Goals
 
-I've used Bootstrap for styling layouts and forms. WTForms to generate automatically the forms.
-I want to restyle the project using Tailwindcss.
-To register you have to put an URL for your background image, I want to incorporate a way to upload an image file but was facing issues so for the moment it stays like this.
-Really want to make the project grow and add functionalities.
-You're invited to create pull requests for any suggestions or improvements on the project.
+- I've used Bootstrap for styling layouts and forms. WTForms to generate automatically the forms.
+- I want to restyle the project using Tailwindcss.
+- To add post you have to put an URL for your background image, I want to incorporate a way to upload an image file but was facing issues so for the moment it stays like this.
+- Wanted to put MDEditor instead of CKEditor for the body of the create post form, but it didn't work. WOuld like to incorporate it to the project.
+- Really want to make the project grow and add functionalities.
+- You're invited to create pull requests for any suggestions or improvements on the project.
