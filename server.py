@@ -101,11 +101,16 @@ with app.app_context():
     # return decorated_function
 
 
+
+
 @app.route('/')
 def home():
+  url = request.path
+  print(url)
+  print(request)
   logged_in = current_user.is_authenticated
   if logged_in:
-     return redirect(url_for('get_all_posts'))
+     return redirect(url_for('get_all_posts', url=url))
   return redirect(url_for('login'))
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -134,11 +139,13 @@ def register():
       db.session.commit()
       login_user(new_user)
       return redirect(url_for('get_all_posts'))
-   return render_template('register.html', form=form, logged_in=current_user.is_authenticated)
+   return render_template('register.html', form=form, logged_in=current_user.is_authenticated, url=request.path)
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+   url = request.path
+   print(url)
    form = LoginForm()
    if request.method == 'POST':
       email = request.form.get('email')
@@ -158,7 +165,7 @@ def login():
       else:
         login_user(user)
         return redirect(url_for('get_all_posts')) 
-   return render_template('login.html', form=form, logged_in=current_user.is_authenticated)
+   return render_template('login.html', form=form, logged_in=current_user.is_authenticated, url=request.path)
 
 
 @app.route('/logout')
@@ -181,8 +188,9 @@ def profile(user_id):
 @app.route('/user_account/<int:user_id>')
 @login_required
 def user_account(user_id):
+  print(request.path)
   user = db.session.execute(db.select(User).where(User.id == user_id)).scalar()
-  return render_template('user.html', user=user, logged_in=current_user.is_authenticated)
+  return render_template('user.html', user=user, logged_in=current_user.is_authenticated, url=request.path)
 
 
 @app.route('/user_account/<int:user_id>/edit', methods=['GET', 'POST'])
@@ -201,7 +209,7 @@ def edit_user(user_id):
     db.session.commit()
     return redirect(url_for('get_my_posts'))
     
-  return render_template('edit-user.html', user=user, form=edit_user_form, logged_in=current_user.is_authenticated)
+  return render_template('edit-user.html', user=user, form=edit_user_form, logged_in=current_user.is_authenticated, url=request.path)
 
 
 @app.route('/delete_user/<int:user_id>')
@@ -222,7 +230,7 @@ def get_all_posts():
   all_posts = posts.fetchall()
   name = current_user.name
   # return redirect(url_for('login'))
-  return render_template('index.html', name=name, posts=all_posts, logged_in=current_user.is_authenticated)
+  return render_template('index.html', name=name, posts=all_posts, logged_in=current_user.is_authenticated, url=request.path)
 
 
 @app.route('/my-posts')
@@ -232,7 +240,7 @@ def get_my_posts():
    name = current_user.name
    posts = db.session.execute(db.select(BlogPost).where(BlogPost.author_id == user_id)).scalars()
    all_posts = posts
-   return render_template('user-posts.html', posts=all_posts, name=name, logged_in=current_user.is_authenticated)
+   return render_template('user-posts.html', posts=all_posts, name=name, logged_in=current_user.is_authenticated, url=request.path)
 
 
 @app.route('/post/<int:post_id>', methods=['GET', 'POST'])
@@ -252,7 +260,7 @@ def get_post(post_id):
      db.session.commit()
      return redirect(url_for('get_post', post_id=post.id, post=post))
   
-  return render_template('post.html', post=post, logged_in=current_user.is_authenticated, name=name, form=form, today=today)
+  return render_template('post.html', post=post, logged_in=current_user.is_authenticated, name=name, form=form, today=today, url=request.path)
   
 @app.route('/new-post', methods=['GET', 'POST'])
 @login_required
@@ -271,7 +279,7 @@ def add_post():
     db.session.commit()
     return redirect(url_for('get_all_posts'))
    else:
-      return render_template('make-post.html', form=form, logged_in=current_user.is_authenticated)
+      return render_template('make-post.html', form=form, logged_in=current_user.is_authenticated, url=request.path)
 
 
 @app.route('/edit-post/<int:post_id>', methods=['GET', 'POST'])
@@ -294,7 +302,7 @@ def edit_post(post_id):
     db.session.commit()
     return redirect(url_for('get_post', post_id=post.id))
     
-  return render_template('edit-post.html', post=post, form=edit_form, logged_in=current_user.is_authenticated)
+  return render_template('edit-post.html', post=post, form=edit_form, logged_in=current_user.is_authenticated, url=request.path)
 
 
 @app.route('/delete_post/<int:post_id>')
@@ -308,7 +316,7 @@ def delete_post(post_id):
 
 @app.route('/about')
 def about():
-  return render_template('about.html', logged_in=current_user.is_authenticated)
+  return render_template('about.html', logged_in=current_user.is_authenticated, url=request.path)
 
 
 @app.route('/contact', methods=['GET', 'POST'])
@@ -324,7 +332,7 @@ def contact():
             connection.sendmail(from_addr=USERNAME, to_addrs='info@frydesign.fr', msg=f'subject:New contact message\n\nName: {name}\nEmail: {email}\nTel: {tel}\nMessage: {message}')
     return redirect('/form-submitted')
 
-  return render_template('contact.html', logged_in=current_user.is_authenticated)
+  return render_template('contact.html', logged_in=current_user.is_authenticated, url=request.path)
 
 
 @app.route('/form-submitted')

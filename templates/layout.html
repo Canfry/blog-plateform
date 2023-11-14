@@ -60,60 +60,114 @@
             
             {% if not logged_in %}
             <li class="nav-item">
+              {% if url == '/login'%}
+              <a class="nav-link text-warning px-lg-3 py-3 py-lg-4" href="{{url_for('login')}}"
+                >Login</a
+              >
+              {% else %}
               <a class="nav-link px-lg-3 py-3 py-lg-4" href="{{url_for('login')}}"
                 >Login</a
               >
+              {% endif %}
             </li>
             <li class="nav-item">
+              {% if url == '/register'%}
+              <a class="nav-link text-warning px-lg-3 py-3 py-lg-4" href="{{url_for('register')}}"
+                >Register</a
+              >
+              {% else %}
               <a class="nav-link px-lg-3 py-3 py-lg-4" href="{{url_for('register')}}"
                 >Register</a
               >
+              {% endif %}
             </li>
              <li class="nav-item">
+              {% if url == '/about'%}
+              <a class="nav-link text-warning px-lg-3 py-3 py-lg-4" href="{{url_for('about')}}"
+                >About Us</a
+              >
+              {% else %}
               <a class="nav-link px-lg-3 py-3 py-lg-4" href="{{url_for('about')}}"
                 >About Us</a
               >
+              {% endif %}
             </li>
             </li>
             <li class="nav-item">
+              {% if url == '/contact'%}
+              <a class="nav-link text-warning px-lg-3 py-3 py-lg-4" href="{{url_for('contact')}}"
+                >Contact</a
+              >
+              {% else %}
               <a class="nav-link px-lg-3 py-3 py-lg-4" href="{{url_for('contact')}}"
                 >Contact</a
               >
+              {% endif %}
             </li>
             
             {% else %}
             
             <li class="nav-item">
+              {% if url == '/all-posts'%}
+              <a class="nav-link text-warning px-lg-3 py-3 py-lg-4" href="{{url_for('get_all_posts')}}"
+                >Home</a
+              >
+              {% else %}
               <a class="nav-link px-lg-3 py-3 py-lg-4" href="{{url_for('get_all_posts')}}"
                 >Home</a
               >
+              {% endif %}
             </li>
             <li class="nav-item">
+              {% if url == '/my-posts'%}
+              <a class="nav-link text-warning px-lg-3 py-3 py-lg-4" href="{{url_for('get_my_posts')}}"
+                >My Posts</a
+              >
+              {% else %}
               <a class="nav-link px-lg-3 py-3 py-lg-4" href="{{url_for('get_my_posts')}}"
                 >My Posts</a
               >
+              {% endif %}
             </li>
             <li class="nav-item">
+              {% if url == '/about'%}
+              <a class="nav-link text-warning px-lg-3 py-3 py-lg-4" href="{{url_for('about')}}"
+                >About Us</a
+              >
+              {% else %}
               <a class="nav-link px-lg-3 py-3 py-lg-4" href="{{url_for('about')}}"
                 >About Us</a
               >
+              {% endif %}
             </li>
             </li>
             <li class="nav-item">
+              {% if url == '/contact'%}
+              <a class="nav-link text-warning px-lg-3 py-3 py-lg-4" href="{{url_for('contact')}}"
+                >Contact</a
+              >
+              {% else %}
               <a class="nav-link px-lg-3 py-3 py-lg-4" href="{{url_for('contact')}}"
                 >Contact</a
               >
+              {% endif %}
             </li>
             <li class="nav-item">
+              {% if url == '/user_account/current_user.id' %}
+              <a class="nav-link text-warning px-lg-3 py-3 py-lg-4" href="{{url_for('user_account', user_id=current_user.id)}}"
+                ><i class="fa-regular fa-user" style="color: #ffc105;"></i> {{current_user.name}}</a
+              >
+              {% else %}
               <a class="nav-link px-lg-3 py-3 py-lg-4" href="{{url_for('user_account', user_id=current_user.id)}}"
                 ><i class="fa-regular fa-user" style="color: #ffc105;"></i> {{current_user.name}}</a
               >
+              {% endif %}
             </li>
             
             
             <li class="nav-item">
-              <a class="nav-link px-lg-3 py-3 py-lg-4 text-warning" href="{{url_for('logout')}}"
-                >Logout</a
+              <a class="nav-link px-lg-3 py-3 py-lg-4 fw-lighter link-underline-warning" href="{{url_for('logout')}}"
+                >Logout<i class="fa-solid fa-right-from-bracket mx-1" style="color: #ffffff;"></i></a
               >
             </li>
             {% endif %}
