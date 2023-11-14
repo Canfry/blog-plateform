@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, abort, session
+from functools import wraps
 from flask_ckeditor import CKEditor
 from flask_bootstrap import Bootstrap5
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
@@ -89,28 +90,43 @@ with app.app_context():
     db.create_all()
 
 
-#Create admin-only decorator
-# def admin_only(f):
-#     @wraps(f)
-#     def decorated_function(*args, **kwargs):
-        #If id is not 1 then return abort with 403 error
-        # if current_user.id != 1:
-        #     return abort(403)
-        #Otherwise continue with the route function
-    #     return f(*args, **kwargs)        
-    # return decorated_function
+# Create admin-only decorator
+def admin_only(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        # If id is not 1 then return abort with 403 error
+        if current_user.id != 1:
+            return abort(403)
+        # Otherwise continue with the route function
+        return f(*args, **kwargs)        
+    return decorated_function
 
 
+@app.route('/users_list')
+@admin_only
+@login_required
+def users_list():
+   users = db.session.execute(db.select(User))
+   users_list = users.scalars()
+   return render_template('users.html', users=users_list, logged_in=current_user.is_authenticated)
+
+
+@app.route('/users_list/delete/<int:user_id>')
+def delete_user_from_admin(user_id):
+   user = db.session.execute(db.select(User).where(User.id == user_id))
+   user_to_delete = user.scalar()
+  #  print(user_to_delete.id)
+   db.session.delete(user_to_delete)
+   db.session.commit()
+   return redirect(url_for('users_list'))
 
 
 @app.route('/')
 def home():
-  url = request.path
-  print(url)
   print(request)
   logged_in = current_user.is_authenticated
   if logged_in:
-     return redirect(url_for('get_all_posts', url=url))
+     return redirect(url_for('get_all_posts'))
   return redirect(url_for('login'))
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -297,7 +313,7 @@ def edit_post(post_id):
     post.title = edit_form.title.data
     post.subtitle = edit_form.subtitle.data
     post.body = edit_form.body.data
-    post.author = edit_form.author.data
+    post.author = current_user
     post.img_url = edit_form.img_url.data
     db.session.commit()
     return redirect(url_for('get_post', post_id=post.id))
