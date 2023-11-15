@@ -9,7 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user, LoginManager, UserMixin
 from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm, EditPostForm, EditUserForm
 from dotenv import load_dotenv
-from variables import USERNAME, PASSWORD, today
+from variables import USERNAME, PASSWORD, today, DEST_EMAIL
 from dataclasses import dataclass
 from typing import List
 from datetime import timedelta
@@ -345,7 +345,7 @@ def contact():
     with smtplib.SMTP('smtp.gmail.com') as connection:
             connection.starttls()
             connection.login(user=USERNAME, password=PASSWORD)
-            connection.sendmail(from_addr=USERNAME, to_addrs='info@frydesign.fr', msg=f'subject:New contact message\n\nName: {name}\nEmail: {email}\nTel: {tel}\nMessage: {message}')
+            connection.sendmail(from_addr=USERNAME, to_addrs=DEST_EMAIL, msg=f'subject:New contact message\n\nName: {name}\nEmail: {email}\nTel: {tel}\nMessage: {message}')
     return redirect('/form-submitted')
 
   return render_template('contact.html', logged_in=current_user.is_authenticated, url=request.path)
@@ -357,4 +357,4 @@ def form_submitted():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5500)
+    app.run(debug=False)
