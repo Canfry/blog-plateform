@@ -4,7 +4,6 @@ from flask_ckeditor import CKEditor
 from flask_bootstrap import Bootstrap5
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import String, Integer, ForeignKey
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user, LoginManager, UserMixin
 from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm, EditPostForm, EditUserForm
@@ -22,7 +21,7 @@ load_dotenv()
 class Base(DeclarativeBase):
   pass
 
-db = SQLAlchemy(model_class=Base)
+db = SQLAlchemy()
 
 # Configure Extension
 app = Flask(__name__)
@@ -52,38 +51,38 @@ def load_user(user_id):
 @dataclass
 class User(UserMixin, db.Model):
     __tablename__ = "users"
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    email: Mapped[str] = mapped_column(String(100), unique=True,nullable=False)
-    password: Mapped[str] = mapped_column(String(100), nullable=False)
-    name: Mapped[str] = mapped_column(String(100), nullable=False)
-    subtitle: Mapped[str] = mapped_column(String(255), unique=True,nullable=False)
-    posts: Mapped[List['BlogPost']] = relationship(back_populates="author", lazy='subquery', cascade='all, delete')
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(100), unique=True,nullable=False)
+    password = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    subtitle = db.Column(db.String(255), unique=True,nullable=False)
+    posts = relationship('BlogPost', back_populates="author", lazy='subquery', cascade='all, delete')
     comments = relationship('Comment', back_populates="author", lazy='subquery', cascade='all, delete')
 
 ##BlogPosts TABLE Configuration
 @dataclass
 class BlogPost(db.Model):
     __tablename__ = "blog_posts"
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    author_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"))
-    author: Mapped['User'] = relationship(back_populates='posts')
-    title: Mapped[str] = mapped_column(String(250), unique=True, nullable=False)
-    subtitle: Mapped[str] = mapped_column(String(250), nullable=False)
-    date: Mapped[str] = mapped_column(String(250), nullable=False)
-    body: Mapped[str] = mapped_column(String(250), nullable=False)
-    img_url: Mapped[str] = mapped_column(String(250), nullable=False)
-    comments: Mapped[List['Comment']] = relationship(back_populates='posts', cascade='all, delete')
+    id = db.Column(db.Integer, primary_key=True)
+    author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    author = relationship('User', back_populates='posts')
+    title = db.Column(db.String(250), unique=True, nullable=False)
+    subtitle = db.Column(db.String(250), nullable=False)
+    date = db.Column(db.String(250), nullable=False)
+    body = db.Column(db.String(250), nullable=False)
+    img_url = db.Column(db.String(250), nullable=False)
+    comments = relationship('Comment', back_populates='posts', cascade='all, delete')
 
 ##BlogPosts TABLE Configuration
 @dataclass
 class Comment(db.Model):
     __tablename__ = "comments"
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    text: Mapped[str] = mapped_column(String(250), unique=True, nullable=False)
-    author_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"))
-    author: Mapped['User'] = relationship(back_populates='comments')
-    post_id: Mapped[int] = mapped_column(Integer, ForeignKey("blog_posts.id"))
-    posts: Mapped['BlogPost'] = relationship(back_populates='comments')
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(250), unique=True, nullable=False)
+    author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    author = relationship('User', back_populates='comments')
+    post_id = db.Column(db.Integer, db.ForeignKey("blog_posts.id"))
+    posts = relationship('BlogPost', back_populates='comments')
     
 
 with app.app_context():
