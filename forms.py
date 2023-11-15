@@ -1,7 +1,7 @@
 # from flask_mdeditor import MDEditorField, MDEditor
 from flask_ckeditor import CKEditorField
 from wtforms import StringField, SubmitField, PasswordField
-from wtforms.validators import DataRequired, URL
+from wtforms.validators import DataRequired, URL, Length, Email
 from flask_wtf import FlaskForm
 # from flask_wtf.file import FileAllowed, FileField, FileRequired
 
@@ -12,7 +12,7 @@ class CreatePostForm(FlaskForm):
    title = StringField('Title', validators=[DataRequired()])
    subtitle = StringField('Subtitle', validators=[DataRequired()])
    img_url = StringField('Cover Image', validators=[DataRequired(), URL()])
-   body = CKEditorField('Body', validators=[DataRequired()])
+   body = CKEditorField('Body', validators=[DataRequired(), Length(min=1, max=1000000)])
    submit = SubmitField(label='Add Post', render_kw=style)
 
 class EditPostForm(FlaskForm):
