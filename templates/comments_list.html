@@ -1,0 +1,27 @@
+{% extends 'layout.html'%} {% block title%} Comments List {% endblock %} {%
+block header %}
+<h1>{{current_user.name}}'s blog</h1>
+<span class="subheading">Comments List</span>
+{% endblock %} {% block content %}
+<div class="container px-4 px-lg-5">
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+      <!-- Post preview-->
+      {% for comment_to_delete in comments %}
+      <div class="post-preview">
+        <h2 class="post-title text-decoration">{{ comment_to_delete.text}}</h2>
+        <h3 class="post-subtitle text-decoration">
+          {{ comment_to_delete.author_id.name}}
+        </h3>
+        <a
+          href="{{url_for('delete_comment_from_admin', comment_id=comment_to_delete.id)}}"
+        >
+          <i class="fa-solid fa-trash-can" style="color: #cc0000"></i>
+        </a>
+        <hr class="my-4" />
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+</div>

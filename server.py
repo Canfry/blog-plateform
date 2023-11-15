@@ -121,6 +121,44 @@ def delete_user_from_admin(user_id):
    return redirect(url_for('users_list'))
 
 
+@app.route('/posts_list')
+@admin_only
+@login_required
+def posts_list():
+   posts = db.session.execute(db.select(BlogPost))
+   posts_list = posts.scalars()
+   return render_template('posts_list.html', posts=posts_list, logged_in=current_user.is_authenticated)
+
+
+@app.route('/posts_list/delete/<int:post_id>')
+def delete_post_from_admin(post_id):
+   post = db.session.execute(db.select(BlogPost).where(BlogPost.id == post_id))
+   post_to_delete = post.scalar()
+  #  print(user_to_delete.id)
+   db.session.delete(post_to_delete)
+   db.session.commit()
+   return redirect(url_for('posts_list'))
+
+
+@app.route('/comments_list')
+@admin_only
+@login_required
+def comments_list():
+   comments = db.session.execute(db.select(Comment))
+   comments_list = comments.scalars()
+   return render_template('comments_list.html', comments=comments_list, logged_in=current_user.is_authenticated)
+
+
+@app.route('/comments_list/delete/<int:comment_id>')
+def delete_comment_from_admin(comment_id):
+   comment = db.session.execute(db.select(Comment).where(Comment.id == comment_id))
+   comment_to_delete = comment.scalar()
+  #  print(user_to_delete.id)
+   db.session.delete(comment_to_delete)
+   db.session.commit()
+   return redirect(url_for('comments_list'))
+
+
 @app.route('/')
 def home():
   print(request)
