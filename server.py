@@ -78,7 +78,7 @@ class BlogPost(db.Model):
 class Comment(db.Model):
     __tablename__ = "comments"
     id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.String(250), unique=True, nullable=False)
+    text = db.Column(db.Text(250), unique=True, nullable=False)
     author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     author = relationship('User', back_populates='comments')
     post_id = db.Column(db.Integer, db.ForeignKey("blog_posts.id"))
@@ -321,12 +321,12 @@ def add_post():
    form = CreatePostForm()
    if form.validate_on_submit():
     new_post = BlogPost(
-        title = request.form.get('title'),
-        subtitle = request.form.get('subtitle'),
+        title = form.title.data,
+        subtitle = form.subtitle.data,
         date = today,
-        body = request.form.get('body'),
+        body = form.body.data,
         author = current_user,
-        img_url = request.form.get('img_url')
+        img_url = form.img_url.data,
     )
     db.session.add(new_post)
     db.session.commit()
