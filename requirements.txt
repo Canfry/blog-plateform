@@ -8,7 +8,7 @@ Flask-CKEditor==0.5.0
 Flask-Gravatar==0.5.0
 Flask-Login==0.6.3
 Flask-MDEditor==0.1.4
-Flask-SQLAlchemy==3.1.1
+Flask-SQLAlchemy==3.0.5
 Flask-Uploads==0.2.1
 Flask-WTF==1.2.1
 greenlet==3.0.1
