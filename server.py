@@ -8,11 +8,13 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user, LoginManager, UserMixin
 from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm, EditPostForm, EditUserForm
 from dotenv import load_dotenv
-from variables import USERNAME, PASSWORD, today, DEST_EMAIL
+from variables import USERNAME, PASSWORD, today, DEST_EMAIL, MY_EMAIL
 from dataclasses import dataclass
 from typing import List
 from datetime import timedelta
 import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 import os
 
 load_dotenv()
@@ -26,7 +28,7 @@ db = SQLAlchemy()
 # Configure Extension
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DB_URI')
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('SQLALCHEMY_DATABASE_URI')
 # Security for HTTPS
 app.config['SESSION_COOKIE_SECURE'] = True
 # Prevent malicious scripts
@@ -379,10 +381,19 @@ def contact():
     email = request.form.get('email')
     tel = request.form.get('tel')
     message = request.form.get('message')
-    with smtplib.SMTP('smtp.gmail.com') as connection:
+
+    msg = MIMEMultipart()
+    msg['From'] = MY_EMAIL
+    msg['To'] = DEST_EMAIL
+    msg['Subject'] = 'New contact message'
+    mail_body = f'Name: {name}\nEmail: {email}\nTel: {tel}\nMessage: {message}'
+    msg.attach(MIMEText(mail_body))
+
+    with smtplib.SMTP('smtp.sendgrid.net', 587) as connection:
+            connection.ehlo()
             connection.starttls()
-            connection.login(user=USERNAME, password=PASSWORD)
-            connection.sendmail(from_addr=USERNAME, to_addrs=DEST_EMAIL, msg=f'subject:New contact message\n\nName: {name}\nEmail: {email}\nTel: {tel}\nMessage: {message}')
+            connection.login(USERNAME, PASSWORD)
+            connection.sendmail(MY_EMAIL, DEST_EMAIL, msg.as_string())
     return redirect('/form-submitted')
 
   return render_template('contact.html', logged_in=current_user.is_authenticated, url=request.path)
