@@ -23,7 +23,6 @@
   <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
       <div class="col-md-10 col-lg-8 col-xl-7">
-        {{post.body|safe}}
         {% if post.author_id == current_user.id %}
         <div class="d-flex justify-content-end mb-4">
           <!-- TODO: Editing posts-->
@@ -32,6 +31,8 @@
           >
         </div>
         {% endif %}
+        {{post.body|safe}}
+        
         <form
             id="contactForm"
             data-sb-form-api-token="API_TOKEN"
@@ -45,14 +46,16 @@
           {% else %}
           <h5 class="comment-header">Comments <span class="comment-count">({{ post.comments | length }})</span> :</h5>
           <div class="comment-container">
-          {% for comment in post.comments %}
+            {% for comment in post.comments %}
           <!-- <p class="comment bg-secondary" style="--bs-bg-opacity: .05"> -->
-            <p>{{comment.text|safe}}</p>
-          <p class="comment-user"><span class="comment-user-name">{{ comment.author.name.title() }}</span>, on  {{today}}</p>
-          <hr />
-          {% endfor %}
-          {% endif %}
-        </div>
+            <div class="single-comment">
+              <p class="comment-text">{{comment.text|safe}}</p>
+              <p class="comment-user"><span class="comment-user-name">{{ comment.author.name.title() }}</span>, on  {{today}}</p>
+              <hr class="seperator" />
+            </div>
+            {% endfor %}
+          </div>
+        {% endif %}
       </div>
     </div>
   </div>

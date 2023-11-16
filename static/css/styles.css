@@ -11154,6 +11154,11 @@ header.masthead .post-heading .meta a {
   padding: 0.75rem;
   margin-top: 0.75rem;
   border-radius: 8px;
+  width: 100%;
+  overflow-wrap: break-word;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .comment-header {
@@ -11171,8 +11176,30 @@ header.masthead .post-heading .meta a {
   color: rgba(0, 0, 0, 0.4);
 }
 
+.comment-text {
+  width: 100%;
+}
+
+.single-comment {
+  display: flex;
+  padding: 0 0.75rem;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start; 
+}
+
+/* .comment-text {
+  overflow: auto;
+} */
+
 .comment-user-name {
   font-weight: bold;
+}
+
+.seperator {
+  height: 1px;
+  background-color: #000;
+  width: 100%;
 }
 
 .trash-icon {
