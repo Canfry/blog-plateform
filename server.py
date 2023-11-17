@@ -393,6 +393,7 @@ def contact():
     with smtplib.SMTP('smtp.sendgrid.net') as connection:
             connection.ehlo()
             connection.starttls()
+            connection.ehlo()
             connection.login(USERNAME, PASSWORD)
             connection.sendmail(MY_EMAIL, DEST_EMAIL, msg.as_string())
     # except:
