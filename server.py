@@ -390,8 +390,9 @@ def contact():
     msg.attach(MIMEText(mail_body))
 
     # try:
-    with smtplib.SMTP_SSL('smtp.sendgrid.net', 465) as connection:
+    with smtplib.SMTP('smtp.sendgrid.net') as connection:
             connection.ehlo()
+            connection.starttls()
             connection.login(USERNAME, PASSWORD)
             connection.sendmail(MY_EMAIL, DEST_EMAIL, msg.as_string())
     # except:
