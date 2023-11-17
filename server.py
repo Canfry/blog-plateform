@@ -389,15 +389,15 @@ def contact():
     mail_body = f'Name: {name}\nEmail: {email}\nTel: {tel}\nMessage: {message}'
     msg.attach(MIMEText(mail_body))
 
-    try:
-      with smtplib.SMTP('smtp.sendgrid.net', 587) as connection:
-              connection.ehlo()
-              connection.starttls()
-              connection.login(USERNAME, PASSWORD)
-              connection.sendmail(MY_EMAIL, DEST_EMAIL, msg.as_string())
-    except:
-       print('issue')
-       
+    # try:
+    with smtplib.SMTP('smtp.sendgrid.net', 587) as connection:
+            connection.ehlo()
+            connection.starttls()
+            connection.login(USERNAME, PASSWORD)
+            connection.sendmail(MY_EMAIL, DEST_EMAIL, msg.as_string())
+    # except:
+    #    print('issue')
+
     return redirect('/form-submitted')
 
   return render_template('contact.html', logged_in=current_user.is_authenticated, url=request.path)
