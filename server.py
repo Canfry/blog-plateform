@@ -383,7 +383,7 @@ def contact():
     tel = request.form.get('tel')
     message = request.form.get('message')
 
-    resend.api_key = os.environ.get("RESEND_API_KEY")
+    resend.api_key = os.environ["RESEND_API_KEY"]
 
     params = {
       "from": os.environ.get('FROM_EMAIL'),
