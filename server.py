@@ -2,19 +2,16 @@ from flask import Flask, render_template, request, redirect, url_for, flash, abo
 from functools import wraps
 from flask_ckeditor import CKEditor
 from flask_bootstrap import Bootstrap5
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from sqlalchemy.orm import DeclarativeBase, relationship
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user, LoginManager, UserMixin
 from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm, EditPostForm, EditUserForm
 from dotenv import load_dotenv
-from variables import USERNAME, PASSWORD, today, DEST_EMAIL, MY_EMAIL
+from variables import today
 from dataclasses import dataclass
 from typing import List
 from datetime import timedelta
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 import os
 import resend
 
