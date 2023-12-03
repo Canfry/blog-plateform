@@ -28,7 +28,7 @@ db = SQLAlchemy()
 # Configure Extension
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DB_URI')
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('SQLALCHEMY_DATABASE_URI')
 # Security for HTTPS
 app.config['SESSION_COOKIE_SECURE'] = True
 # Prevent malicious scripts
@@ -390,9 +390,10 @@ def contact():
     msg.attach(MIMEText(mail_body))
 
     # try:
-    with smtplib.SMTP('smtp.sendgrid.net', port=587) as connection:
+    with smtplib.SMTP(host='smtp.sendgrid.net', port=587, local_hostname='em7323.anfrydev.com') as connection:
             connection.ehlo()
             connection.starttls()
+            connection.ehlo()
             connection.login(USERNAME, PASSWORD)
             connection.sendmail(MY_EMAIL, DEST_EMAIL, msg.as_string())
     # except:
