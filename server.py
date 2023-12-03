@@ -16,6 +16,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import os
+import resend
 
 load_dotenv()
 
@@ -382,18 +383,17 @@ def contact():
     tel = request.form.get('tel')
     message = request.form.get('message')
 
-    msg = MIMEMultipart()
-    msg['From'] = MY_EMAIL
-    msg['To'] = DEST_EMAIL
-    msg['Subject'] = 'New contact message'
-    mail_body = f'Name: {name}\nEmail: {email}\nTel: {tel}\nMessage: {message}'
-    msg.attach(MIMEText(mail_body))
+    resend.api_key = os.environ["RESEND_API_KEY"]
 
-    with smtplib.SMTP('smtp.sendgrid.net', 587) as connection:
-            connection.ehlo()
-            connection.starttls()
-            connection.login(USERNAME, PASSWORD)
-            connection.sendmail(MY_EMAIL, DEST_EMAIL, msg.as_string())
+    params = {
+      "from": os.environ.get('FROM_EMAIL'),
+      "to": os.environ.get('TO_EMAIL'),
+      "subject": "Contact blog platform",
+      "html": "<strong>it works!</strong>",
+      }
+
+    email = resend.Emails.send(params)
+    print(email)
     return redirect('/form-submitted')
 
   return render_template('contact.html', logged_in=current_user.is_authenticated, url=request.path)
