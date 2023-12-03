@@ -389,11 +389,11 @@ def contact():
       "from": os.environ.get('FROM_EMAIL'),
       "to": os.environ.get('TO_EMAIL'),
       "subject": "Contact blog platform",
-      "html": "<strong>it works!</strong>",
+      "html": f"<p>Name: {name}</p><p>Email: {email}</p><p>Phone: {tel}</p><p>Message: {message}</p>",
       }
 
-    email = resend.Emails.send(params)
-    print(email)
+    resend_email = resend.Emails.send(params)
+    print(resend_email)
     return redirect('/form-submitted')
 
   return render_template('contact.html', logged_in=current_user.is_authenticated, url=request.path)
